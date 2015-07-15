@@ -27,5 +27,6 @@ RUN chmod +x /usr/bin/entrypoint.sh
 
 ADD nova-compute.conf /etc/supervisor/conf.d/nova-compute.conf
 ADD libvirtd.conf /etc/supervisor/conf.d/libvirtd.conf
+ADD dbus.conf /etc/supervisor/conf.d/dbus.conf
 
 ENTRYPOINT ["/usr/bin/entrypoint.sh"]
