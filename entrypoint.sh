@@ -80,6 +80,9 @@ if [ ! -f /etc/nova/.complete ];then
     $CRUDINI --set /etc/nova/nova.conf glance host $GLANCE_ENDPOINT
 
     $CRUDINI --set /etc/nova/nova.conf oslo_concurrency lock_path /var/lib/nova/tmp
+    
+    $CRUDINI --set /etc/nova/nova-compute.conf libvirt virt_type kvm
+    $CRUDINI --set /etc/nova/nova-compute.conf libvirt inject_password true
 
     touch /etc/nova/.complete
 fi

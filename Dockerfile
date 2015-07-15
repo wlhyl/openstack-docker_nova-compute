@@ -25,6 +25,7 @@ VOLUME ["/var/log/nova"]
 ADD entrypoint.sh /usr/bin/entrypoint.sh
 RUN chmod +x /usr/bin/entrypoint.sh
 
-ADD nova-api.conf /etc/supervisor/conf.d/nova-api.conf
+ADD nova-compute.conf /etc/supervisor/conf.d/nova-compute.conf
+ADD libvirtd.conf /etc/supervisor/conf.d/libvirtd.conf
 
 ENTRYPOINT ["/usr/bin/entrypoint.sh"]
