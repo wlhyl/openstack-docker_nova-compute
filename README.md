@@ -7,6 +7,8 @@
 - MY_IP: my_ip
 - NOVNCPROXY_BASE_URL: novncproxy_base_url
 - GLANCE_ENDPOINT: glance endpoint
+- NEUTRON_ENDPOINT: neutron endpoint
+- NEUTRON_PASS: openstack neutron 密码
 
 # volumes:
 - /opt/openstack/nova-cert/: /etc/nova

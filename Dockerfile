@@ -11,22 +11,11 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update
 RUN apt-get dist-upgrade -y
-RUN apt-get -t jessie-backports install nova-compute sysfsutils -y
 RUN apt-get clean
 
 RUN env --unset=DEBIAN_FRONTEND
 
-RUN cp -rp /etc/nova/ /nova
-RUN rm -rf /var/log/nova/*
-
-VOLUME ["/etc/nova"]
-VOLUME ["/var/log/nova"]
-
 ADD entrypoint.sh /usr/bin/entrypoint.sh
 RUN chmod +x /usr/bin/entrypoint.sh
-
-ADD nova-compute.conf /etc/supervisor/conf.d/nova-compute.conf
-ADD libvirtd.conf /etc/supervisor/conf.d/libvirtd.conf
-ADD dbus.conf /etc/supervisor/conf.d/dbus.conf
 
 ENTRYPOINT ["/usr/bin/entrypoint.sh"]
