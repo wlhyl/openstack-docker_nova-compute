@@ -75,6 +75,8 @@ CRUDINI='/usr/bin/crudini'
 
     $CRUDINI --set /etc/nova/nova.conf DEFAULT my_ip $MY_IP
 
+    $CRUDINI --set /etc/nova/nova.conf spice enabled false
+
     $CRUDINI --set /etc/nova/nova.conf DEFAULT vnc_enabled True
     $CRUDINI --set /etc/nova/nova.conf DEFAULT vncserver_listen 0.0.0.0
     $CRUDINI --set /etc/nova/nova.conf DEFAULT vncserver_proxyclient_address $MY_IP
