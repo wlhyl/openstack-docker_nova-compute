@@ -11,13 +11,12 @@
 - NEUTRON_PASS: openstack neutron 密码
 
 # volumes:
-- /opt/openstack/nova-cert/: /etc/nova
-- /opt/openstack/log/nova-cert/: /var/log/nova/
+- /etc/nova/: /etc/nova
 
 # 启动nova-compute
+```bash
 docker run -d --name nova-compute --privileged \
-    -v /opt/openstack/nova-compute/:/etc/nova \
-    -v /opt/openstack/log/nova-compute/:/var/log/nova/ \
+    -v /etc/nova/:/etc/nova \
     -e RABBIT_HOST=10.64.0.52 \
     -e RABBIT_USERID=openstack \
     -e RABBIT_PASSWORD=openstack \
@@ -27,3 +26,4 @@ docker run -d --name nova-compute --privileged \
     -e MY_IP=10.64.0.52 \
     -e GLANCE_ENDPOINT=10.64.0.52 \
     10.64.0.50:5000/lzh/nova-api:kilo
+```
