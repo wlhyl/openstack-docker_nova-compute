@@ -1,13 +1,14 @@
 # 环境变量
-- KEYSTONE_ENDPOINT: keystone endpont
+- KEYSTONE_INTERNAL_ENDPOINT: keystone internal endpoint
+- KEYSTONE_ADMIN_ENDPOINT: keystone admin endpoint
 - RABBIT_HOST: rabbitmq IP
 - RABBIT_USERID: rabbitmq user
 - RABBIT_PASSWORD: rabbitmq user 的 password
 - NOVA_PASS: openstack nova密码
 - MY_IP: my_ip
-- NOVNCPROXY_BASE_URL: novncproxy_base_url
+- NOVNCPROXY_BASE_URL: nova-novncproxy ip
 - GLANCE_ENDPOINT: glance endpoint
-- NEUTRON_ENDPOINT: neutron endpoint
+- NEUTRON_INTERNAL_ENDPOINT: neutron internal endpoint
 - NEUTRON_PASS: openstack neutron 密码
 
 # volumes:
