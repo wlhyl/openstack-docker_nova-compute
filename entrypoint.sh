@@ -96,7 +96,10 @@ CRUDINI='/usr/bin/crudini'
     # 启用密码注入，inject_partition = -1 只允许注入文件
     #$CRUDINI --set /etc/nova/nova.conf libvirt inject_password true
     #$CRUDINI --set /etc/nova/nova.conf libvirt inject_partition -1
-    
+
+    # 禁用密码注入
+    $CRUDINI --set /etc/nova/nova-compute.conf libvirt inject_password False
+
     # 配置网络
     $CRUDINI --set /etc/nova/nova.conf DEFAULT network_api_class nova.network.neutronv2.api.API
     $CRUDINI --set /etc/nova/nova.conf DEFAULT security_group_api neutron
