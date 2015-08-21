@@ -90,15 +90,19 @@ CRUDINI='/usr/bin/crudini'
     $CRUDINI --set /etc/nova/nova.conf glance host $GLANCE_HOST
 
     $CRUDINI --set /etc/nova/nova.conf oslo_concurrency lock_path /var/lib/nova/tmp
-    
+
+    $CRUDINI --del /etc/nova/nova.conf libvirt
+
     $CRUDINI --set /etc/nova/nova-compute.conf libvirt virt_type kvm
     
     # 启用密码注入，inject_partition = -1 只允许注入文件
     #$CRUDINI --set /etc/nova/nova.conf libvirt inject_password true
     #$CRUDINI --set /etc/nova/nova.conf libvirt inject_partition -1
 
-    # 禁用密码注入
+    # 禁用密码注入, 添加直接从rbd启动支持
     $CRUDINI --set /etc/nova/nova-compute.conf libvirt inject_password False
+    $CRUDINI --set /etc/nova/nova-compute.conf libvirt inject_key False
+    $CRUDINI --set /etc/nova/nova-compute.conf libvirt inject_partition -2
 
     # 配置网络
     $CRUDINI --set /etc/nova/nova.conf DEFAULT network_api_class nova.network.neutronv2.api.API
