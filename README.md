@@ -41,7 +41,7 @@ docker run -d --name nova-compute --privileged \
     rbd concurrent management ops = 20
 
 mkdir -p /var/run/ceph/guests/ /var/log/qemu/
-chown libvirt-qemu:libvirt /var/run/ceph/guests /var/log/qemu/
+chown libvirt-qemu:libvirt-qemu /var/run/ceph/guests /var/log/qemu/
 ```
 编辑/etc/nova/nova-compute.conf
 ```bash
