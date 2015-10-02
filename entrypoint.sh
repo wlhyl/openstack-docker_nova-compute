@@ -108,7 +108,7 @@ CRUDINI='/usr/bin/crudini'
     
     # 设置vcpu pin
     PHY_CPU_CORE=$((`nproc`-1))
-    $CRUDINI --set /etc/nova/nova-compute.conf DEFAULT vcpu_pin_set \"0-${PHY_CPU_CORE},^0,^1\"
+    $CRUDINI --set /etc/nova/nova-compute.conf DEFAULT vcpu_pin_set \"0-${PHY_CPU_CORE},^0,^1,^2,^3\"
 
     # 配置网络
     $CRUDINI --set /etc/nova/nova.conf DEFAULT network_api_class nova.network.neutronv2.api.API
