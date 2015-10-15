@@ -122,5 +122,7 @@ CRUDINI='/usr/bin/crudini'
     $CRUDINI --set /etc/nova/nova.conf neutron admin_tenant_name service
     $CRUDINI --set /etc/nova/nova.conf neutron admin_username neutron
     $CRUDINI --set /etc/nova/nova.conf neutron admin_password $NEUTRON_PASS
+    
+    $CRUDINI --set /etc/nova/nova.conf DEFAULT reserved_host_memory_mb 4096
 
 /usr/bin/supervisord -n
