@@ -109,7 +109,7 @@ CRUDINI='/usr/bin/crudini'
 
     # 禁用密码注入, 添加直接从rbd启动支持
     $CRUDINI --set /etc/nova/nova.conf libvirt inject_password False
-    $CRUDINI --set /etc/nova/nova-.onf libvirt inject_key False
+    $CRUDINI --set /etc/nova/nova.onf libvirt inject_key False
     $CRUDINI --set /etc/nova/nova.conf libvirt inject_partition -2
     
     $CRUDINI --set /etc/nova/nova.conf libvirt disk_cachemodes \"file=writeback\"
