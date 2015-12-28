@@ -57,7 +57,15 @@ if [ -z "$NEUTRON_PASS" ];then
   exit 1
 fi
 
+if [ -z "$REGION_NAME" ];then
+  echo "error: REGION_NAME not set."
+  exit 1
+fi
+
 CRUDINI='/usr/bin/crudini'
+
+    $CRUDINI --set /etc/nova/nova.conf oslo_concurrency lock_path /var/lib/nova/tmp
+    $CRUDINI --set /etc/nova/nova.conf DEFAULT state_path /var/lib/nova
 
     $CRUDINI --set /etc/nova/nova.conf DEFAULT rpc_backend rabbit
 
@@ -81,7 +89,6 @@ CRUDINI='/usr/bin/crudini'
     $CRUDINI --set /etc/nova/nova.conf DEFAULT my_ip $MY_IP
 
     $CRUDINI --set /etc/nova/nova.conf spice enabled false
-
     $CRUDINI --set /etc/nova/nova.conf DEFAULT vnc_enabled True
     $CRUDINI --set /etc/nova/nova.conf DEFAULT vncserver_listen 0.0.0.0
     $CRUDINI --set /etc/nova/nova.conf DEFAULT vncserver_proxyclient_address $MY_IP
@@ -93,22 +100,23 @@ CRUDINI='/usr/bin/crudini'
 
     $CRUDINI --del /etc/nova/nova.conf libvirt
 
-    $CRUDINI --set /etc/nova/nova-compute.conf libvirt virt_type kvm
+
+    $CRUDINI --set /etc/nova/nova.conf libvirt virt_type kvm
     
     # 启用密码注入，inject_partition = -1 只允许注入文件
     #$CRUDINI --set /etc/nova/nova.conf libvirt inject_password true
     #$CRUDINI --set /etc/nova/nova.conf libvirt inject_partition -1
 
     # 禁用密码注入, 添加直接从rbd启动支持
-    $CRUDINI --set /etc/nova/nova-compute.conf libvirt inject_password False
-    $CRUDINI --set /etc/nova/nova-compute.conf libvirt inject_key False
-    $CRUDINI --set /etc/nova/nova-compute.conf libvirt inject_partition -2
+    $CRUDINI --set /etc/nova/nova.conf libvirt inject_password False
+    $CRUDINI --set /etc/nova/nova-.onf libvirt inject_key False
+    $CRUDINI --set /etc/nova/nova.conf libvirt inject_partition -2
     
-    $CRUDINI --set /etc/nova/nova-compute.conf libvirt disk_cachemodes \"file=writethrough\"
+    $CRUDINI --set /etc/nova/nova.conf libvirt disk_cachemodes \"file=writeback\"
     
     # 设置vcpu pin
     PHY_CPU_CORE=$((`nproc`-1))
-    $CRUDINI --set /etc/nova/nova-compute.conf DEFAULT vcpu_pin_set \"0-${PHY_CPU_CORE},^0,^1,^2,^3\"
+    $CRUDINI --set /etc/nova/nova.conf DEFAULT vcpu_pin_set \"0-${PHY_CPU_CORE},^0,^1,^2,^3\"
 
     # 配置网络
     $CRUDINI --set /etc/nova/nova.conf DEFAULT network_api_class nova.network.neutronv2.api.API
@@ -116,12 +124,16 @@ CRUDINI='/usr/bin/crudini'
     $CRUDINI --set /etc/nova/nova.conf DEFAULT linuxnet_interface_driver nova.network.linux_net.LinuxOVSInterfaceDriver
     $CRUDINI --set /etc/nova/nova.conf DEFAULT firewall_driver nova.virt.firewall.NoopFirewallDriver
     
-    $CRUDINI --set /etc/nova/nova.conf neutron url http://$NEUTRON_INTERNAL_ENDPOINT:9696
-    $CRUDINI --set /etc/nova/nova.conf neutron auth_strategy keystone
-    $CRUDINI --set /etc/nova/nova.conf neutron admin_auth_url http://$KEYSTONE_ADMIN_ENDPOINT:35357/v2.0
-    $CRUDINI --set /etc/nova/nova.conf neutron admin_tenant_name service
-    $CRUDINI --set /etc/nova/nova.conf neutron admin_username neutron
-    $CRUDINI --set /etc/nova/nova.conf neutron admin_password $NEUTRON_PASS
+    $CRUDINI --del /etc/nova/nova.conf neutron
+    $CRUDINI --set /etc/nova/nova.conf neutron url http://${NEUTRON_INTERNAL_ENDPOINT}:9696
+    $CRUDINI --set /etc/nova/nova.conf neutron auth_url http://$KEYSTONE_ADMIN_ENDPOINT:35357
+    $CRUDINI --set /etc/nova/nova.conf neutron auth_region  $REGION_NAME
+    $CRUDINI --set /etc/nova/nova.conf neutron auth_plugin password
+    $CRUDINI --set /etc/nova/nova.conf neutron project_domain_id default
+    $CRUDINI --set /etc/nova/nova.conf neutron user_domain_id default
+    $CRUDINI --set /etc/nova/nova.conf neutron project_name service
+    $CRUDINI --set /etc/nova/nova.conf neutron username neutron
+    $CRUDINI --set /etc/nova/nova.conf neutron password $NEUTRON_PASS
     
     $CRUDINI --set /etc/nova/nova.conf DEFAULT reserved_host_memory_mb 4096
 
