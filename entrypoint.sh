@@ -102,7 +102,8 @@ CRUDINI='/usr/bin/crudini'
 
     $CRUDINI --del /etc/nova/nova.conf libvirt
 
-
+    # 设置compute_drive 为libvirt
+    $CRUDINI --set /etc/nova/nova.conf DEFAULT compute_driver libvirt.LibvirtDriver
     $CRUDINI --set /etc/nova/nova.conf libvirt virt_type kvm
     
     # 启用密码注入，inject_partition = -1 只允许注入文件
